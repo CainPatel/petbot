@@ -1,0 +1,51 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+cv/
+.pytest_cache/
+
+# ---- Model weights (fetch them, don't commit them) ----
+*.pt
+*.onnx
+*.engine
+
+# ---- Generated media ----
+*.jpg
+*.jpeg
+*.png
+*.mp4
+*.h264
+latest.jpg
+# ...but documentation images are tracked on purpose.
+!docs/**/*.png
+!docs/**/*.jpg
+
+# ---- Calibration output ----
+# Saved matrices are ignored everywhere except the one directory that is
+# meant to hold them.
+*.npy
+!data/calibration/*.npy
+
+# ---- Real config (config.example.yaml is tracked) ----
+config.yaml
+vision/config.yaml
+secrets.h
+
+# ---- Arduino / PlatformIO build output ----
+build/
+.build/
+.pio/
+*.hex
+*.elf
+
+# ---- OS junk ----
+.DS_Store
+Thumbs.db
+
+# ---- Editors ----
+.vscode/
+.idea/
+*.swp

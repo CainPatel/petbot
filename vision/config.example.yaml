@@ -1,0 +1,82 @@
+# cdpr-petbot configuration.
+#
+# Copy to vision/config.yaml and fill in for your room and hardware.
+# config.yaml is gitignored; this example file is tracked.
+
+camera:
+  # Sensor output size. Larger is slower; 1280x720 is a reasonable compromise
+  # on a Pi 5 with yolov8n.
+  width: 1280
+  height: 720
+
+  # MANUAL FOCUS. The room is fixed, so autofocus only introduces hunting and
+  # frame-to-frame variation that invalidates the homography.
+  #
+  # lens_position is in DIOPTRES: 1 / (focus distance in metres).
+  #   0.0  = infinity
+  #   0.5  = 2 m
+  #   1.0  = 1 m
+  #   2.0  = 0.5 m
+  # Measure the camera-to-floor distance and set 1/d, then fine-tune by eye.
+  lens_position: 0.5
+
+  # Set once the camera is mounted; used only for logging.
+  mount_height_mm: 2400
+
+detection:
+  # yolov8n is the smallest and fastest; step up to yolov8s if recall on
+  # curled/sleeping pets is poor. Record which one produced the numbers in
+  # docs/results.md.
+  model: yolov8n.pt
+
+  confidence: 0.4
+
+  # COCO class IDs. 15 = cat, 16 = dog.
+  classes: [15, 16]
+
+  # Where detect.py writes the annotated frame.
+  output_image: latest.jpg
+
+serial:
+  # Arduino Uno on a Pi is usually /dev/ttyACM0. A CH340 clone appears as
+  # /dev/ttyUSB0. Check with: ls -l /dev/serial/by-id/
+  port: /dev/ttyACM0
+  baud: 115200
+  timeout_s: 2.0
+
+  # Seconds to allow for a blocking move to finish before giving up.
+  move_timeout_s: 60.0
+
+esp32:
+  # Printed on the ESP32 serial console at boot. Give it a DHCP reservation on
+  # the router or this will change.
+  base_url: http://192.168.1.50
+
+  request_timeout_s: 5.0
+
+calibration:
+  homography: data/calibration/homography.npy
+
+room:
+  # Origin is one floor corner; X and Y run along the two walls, Z is up.
+  # All millimetres.
+  x_mm: 3000
+  y_mm: 3000
+  z_mm: 2400
+
+# Anchor coordinates: the point where the line LEAVES THE PULLEY SHEAVE.
+# These MUST match A[4][3] in firmware/cdpr_controller/cdpr_controller.ino.
+# See docs/calibration.md section 2.
+anchors:
+  a1: [0,    0,    2400]   # origin corner
+  a2: [0,    3000, 2400]   # +Y from origin
+  a3: [3000, 3000, 2400]   # far corner
+  a4: [3000, 0,    2400]   # +X from origin
+
+platform:
+  # Height the platform is flown at during normal operation, mm.
+  cruise_z_mm: 1200
+
+  # ArUco marker on the platform's flat top.
+  aruco_dict: DICT_4X4_50
+  aruco_id: 4

@@ -1,0 +1,21 @@
+# Pip-installable dependencies for the Pi-side vision stack.
+#
+# IMPORTANT: opencv and picamera2 are NOT in this list on purpose. On Raspberry
+# Pi OS they come from apt, not pip:
+#
+#     sudo apt install python3-opencv python3-picamera2
+#
+# The pip builds of those two either fail to compile on the Pi or install a
+# build with no access to the camera stack. Because they live in the system
+# site-packages, the virtualenv MUST be created so it can see them:
+#
+#     python3 -m venv --system-site-packages ~/cv
+#
+# A plain `python3 -m venv ~/cv` produces an environment where `import cv2` and
+# `import picamera2` both fail. scripts/setup_pi.sh does this correctly.
+
+ultralytics
+pyserial
+numpy
+pyyaml
+requests
