@@ -138,7 +138,7 @@ coordinates; the ESP32 executes claw commands. Neither knows the other exists.
 | `control/` | Serial wrapper and autonomous mission loop |
 | `control.py` | Flask control page: live feed, moves, claw, delivery sequence |
 | `platformio.ini` | Build and upload envs for both boards (`uno`, `esp32`, `esp32_usb`) |
-| `cad/` | Index of the printed parts; the files themselves are on [cainpatel.com](https://cainpatel.com/projects) |
+| `cad/` | Index of the printed parts; the files themselves are on [cainpatel.com](https://cainpatel.com/projects/petbot/) |
 | `docs/` | Build guide, how it works, kinematics, calibration, build log, results |
 
 ## Serial protocol

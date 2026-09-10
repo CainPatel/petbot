@@ -1,7 +1,7 @@
 # CAD
 
 Printed parts. **The STL and STEP files are hosted on
-[cainpatel.com](https://cainpatel.com/projects)**, not in this repo. This
+[cainpatel.com](https://cainpatel.com/projects/petbot/)**, not in this repo. This
 page is the index of what exists, what it is dimensioned for, and whether it
 works.
 

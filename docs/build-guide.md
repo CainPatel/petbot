@@ -70,7 +70,7 @@ each, and both were the cheapest parts in the box.
 
 ## 3. Print the parts
 
-The printable files are hosted on [cainpatel.com](https://cainpatel.com/projects),
+The printable files are hosted on [cainpatel.com](https://cainpatel.com/projects/petbot/),
 not in this repo. [cad/README.md](../cad/README.md) is the index of what
 each part is, what it was dimensioned around, and whether it worked.
 
