@@ -2,34 +2,35 @@
 
 ## Bill of materials
 
-Costs are approximate, in GBP, for what was actually paid or a realistic
-current price. Quantities are for one complete machine.
+Costs are approximate US retail at the time of the build. Quantities are
+for one complete machine.
 
 | Item | Qty | Notes | Approx cost |
 |---|---|---|---|
-| NEMA 17 stepper (42×42, ~1.5 A/phase, 5 mm shaft) | 4 | One per winch. 5 mm D-shaft matches the v2 spool bore. | £48 (4× £12) |
-| TMC2209 stepper driver, BTT V1.2 | 4 | **Standalone mode** — no UART. 0.11 Ω sense resistors, which sets the VREF formula below. One spare is worth buying; see build log. | £24 (4× £6) |
-| Arduino Uno | 1 | Runs the IK and MultiStepper group. D2–D7, D9–D11 used (D8 is dead — see the pin map). | £20 |
-| 12 V PSU, 10 A | 1 | Four steppers at ~0.78 A RMS plus driver overhead. Do not undersize. | £15 |
-| Inline blade fuse holder + 5 A fuse | 1 | Added after a driver was destroyed by a reversed VM/GND. Non-optional. | £4 |
-| 100 µF electrolytic capacitor, 25 V+ | 4 | **One per driver, at its own VM/GND pins.** Not one shared cap on the rail. | £3 |
-| U-groove bearing, 608 size (30 mm OD, 8 mm bore, 10 mm wide) | 4 | The corner pulley sheave. U-groove, not V-groove — the line must sit in the channel without pinching. | £10 |
-| M8×45 bolt + nyloc nut + narrow washers | 4 sets | Pulley axle. Narrow washers so they clear the printed cheeks. | £6 |
-| Dyneema / braided fishing line, ~50 kg rating | 1 spool | Low stretch is the whole point. Nylon monofilament creeps and is unusable here. | £12 |
-| 3M VHB 5952 tape | 1 roll | Pulley housing to ceiling corner. See the warning in the README. | £12 |
-| Isopropyl alcohol | 1 bottle | Surface prep for the VHB. Adhesion is poor without it. | £4 |
-| Raspberry Pi 5, 8 GB | 1 | Runs YOLO and the ArUco tracker. | £75 |
-| ArduCam IMX708 | 1 | Autofocus module; driven in **manual** focus mode for a fixed room. | £25 |
-| Pi 5 camera ribbon, 22-pin → 15-pin | 1 | The Pi 5 connector is the narrow 22-pin type. The cable in the camera box does **not** fit. | £5 |
-| ESP32 DevKit | 1 | On the moving platform. WiFi HTTP server. | £8 |
-| SG90 servo | 1 | Drives the claw. Rubber bands on the jaws give the grip its compliance. | £3 |
-| SSD1306 OLED, 128×64, I²C | 1 | The platform's face. SDA on GPIO 21, SCL on GPIO 22. | £4 |
-| USB power bank, 5 V | 1 | Platform power for the demo. See the TP4056 row. | £8 |
-| TP4056 charging module + LiPo (~1000 mAh) | 1 | Intended platform power. **Does not work as-is**: the servo's current surge collapses the unregulated 3.7 V rail and resets the ESP32 (see README, *Claw power*). Needs a 5 V boost converter. | £10 |
-| Safety tether cordage | 1 | Slack line under the platform, anchored independently of the four cables. | £5 |
-| Bambu A1 mini + PETG | — | Printer already in hand; filament ~£20/kg. | — |
+| NEMA 17 stepper (42×42, ~1.5 A/phase, 5 mm shaft) | 4 | One per winch. 5 mm D-shaft matches the v2 spool bore. | $56 (4× $14) |
+| TMC2209 stepper driver, BTT V1.2 | 4 | **Standalone mode**, no UART. 0.11 Ω sense resistors, which sets the VREF formula below. One spare is worth buying; see build log. | $25 (4× $6) |
+| Arduino Uno | 1 | Runs the IK and MultiStepper group. D2–D7, D9–D11 used (D8 is dead, see the pin map). | $25 |
+| 12 V PSU, 10 A | 1 | Four steppers at ~0.78 A RMS plus driver overhead. Do not undersize. | $20 |
+| Inline blade fuse holder + 5 A fuse | 1 | Added after a driver was destroyed by a reversed VM/GND. Non-optional. | $6 |
+| 100 µF electrolytic capacitor, 25 V+ | 4 | **One per driver, at its own VM/GND pins.** Not one shared cap on the rail. | $3 |
+| U-groove bearing, 608 size (30 mm OD, 8 mm bore, 10 mm wide) | 4 | The corner pulley sheave. U-groove, not V-groove, the line must sit in the channel without pinching. | $10 |
+| M8×45 bolt + nyloc nut + narrow washers | 4 sets | Pulley axle. Narrow washers so they clear the printed cheeks. | $6 |
+| Dyneema / braided fishing line, ~50 kg rating | 1 spool | Low stretch is the whole point. Nylon monofilament creeps and is unusable here. | $12 |
+| 3M VHB 5952 tape | 1 roll | Pulley housing to ceiling corner. See the warning in the README. | $12 |
+| Isopropyl alcohol | 1 bottle | Surface prep for the VHB. Adhesion is poor without it. | $4 |
+| Raspberry Pi 5, 8 GB | 1 | Runs YOLO and the ArUco tracker. | $80 |
+| ArduCam IMX708 | 1 | Autofocus module; driven in **manual** focus mode for a fixed room. | $30 |
+| Pi 5 camera ribbon, 22-pin → 15-pin | 1 | The Pi 5 connector is the narrow 22-pin type. The cable in the camera box does **not** fit. | $5 |
+| ESP32 DevKit | 1 | On the moving platform. WiFi HTTP server. | $8 |
+| SG90 servo | 1 | Drives the claw. Rubber bands on the jaws give the grip its compliance. | $3 |
+| SSD1306 OLED, 128×64, I²C | 1 | The platform's face. SDA on GPIO 21, SCL on GPIO 22. | $5 |
+| USB power bank, 5 V | 1 | Platform power for the demo. See the TP4056 row. | $15 |
+| TP4056 charging module + LiPo (~1000 mAh) | 1 | Intended platform power. **Does not work as-is**: the servo's current surge collapses the unregulated 3.7 V rail and resets the ESP32 (see README, *Claw power*). Needs a 5 V boost converter. | $10 |
+| Safety tether cordage | 1 | Slack line under the platform, anchored independently of the four cables. | $5 |
+| Bambu A1 mini + PETG | n/a | Printer already in hand; about 500 g of filament used, ~$15. | n/a |
 
-Rough total, excluding printer and Pi accessories: **£290**.
+Rough total, excluding the printer: **about $350**. Replacing the driver and servo
+that were destroyed during the build adds about $10.
 
 ---
 
@@ -37,7 +38,7 @@ Rough total, excluding printer and Pi accessories: **£290**.
 
 ### Arduino Uno pin map
 
-`AccelStepper` in `DRIVER` mode takes **STEP first, then DIR** —
+`AccelStepper` in `DRIVER` mode takes **STEP first, then DIR** , 
 `AccelStepper(AccelStepper::DRIVER, stepPin, dirPin)`. Getting this backwards
 produces motors that hum but do not turn, so the table below is written in that
 same order.
@@ -78,7 +79,7 @@ D10 -> EN (all four drivers, active LOW)
 
 12 V PSU (−) ──┬── driver 1..4 GND
                ├── Arduino GND
-               └── (single common ground net — see rule 2 below)
+               └── (single common ground net, see rule 2 below)
 ```
 
 The Arduino is powered over USB from the Pi. The 12 V rail powers only the
@@ -89,7 +90,7 @@ reference from the Arduino header.
 
 ## Driver setup
 
-**Mode.** BTT TMC2209 V1.2 boards in **standalone** mode — no UART, no jumper
+**Mode.** BTT TMC2209 V1.2 boards in **standalone** mode, no UART, no jumper
 on the UART pads, configuration is entirely by pin state.
 
 **Microstepping.** With MS1 and MS2 both left unconnected, the TMC2209 runs
@@ -99,7 +100,7 @@ on the UART pads, configuration is entirely by pin state.
 200 full steps/rev × 8 = 1600 steps/rev
 ```
 
-That 1600 is the number the firmware's `steps_per_mm` is derived from — see
+That 1600 is the number the firmware's `steps_per_mm` is derived from, see
 `docs/calibration.md`.
 
 **Current (VREF).** The BTT V1.2 board uses 0.11 Ω sense resistors, which gives

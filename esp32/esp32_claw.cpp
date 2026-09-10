@@ -38,7 +38,7 @@ void moveClaw(int target);
 
 
 // Ramp in 2-degree steps so peak current stays low enough not to collapse
-// the 3.7V battery rail. Detach at the end — a detached servo cannot stall.
+// the 3.7V battery rail. Detach at the end, a detached servo cannot stall.
 void moveClaw(int target) {
   claw.attach(SERVO_PIN);
   claw.write(target);
@@ -49,7 +49,7 @@ void moveClaw(int target) {
 
 void handleOpen()    { moveClaw(OPEN_ANGLE);   server.send(200, "text/plain", "open"); }
 void handleClose()   { claw.attach(SERVO_PIN); claw.write(CLOSED_ANGLE); delay(600);
-  // stays attached — holds grip against band tension
+  // stays attached, holds grip against band tension
   lastAngle = CLOSED_ANGLE;
   server.send(200, "text/plain", "closed"); }
 void handleGrab()    { moveClaw(CLOSED_ANGLE); server.send(200, "text/plain", "grabbed"); }

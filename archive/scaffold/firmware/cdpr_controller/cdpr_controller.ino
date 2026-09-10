@@ -28,7 +28,7 @@
 #include <MultiStepper.h>
 
 // ---------------------------------------------------------------------------
-// Pin map — Arduino Uno
+// Pin map, Arduino Uno
 //
 // AccelStepper's DRIVER constructor takes STEP FIRST, then DIR:
 //     AccelStepper(AccelStepper::DRIVER, stepPin, dirPin)
@@ -64,7 +64,7 @@ MultiStepper group;
  * Anchor coordinates in mm, in the room frame: origin at one floor corner,
  * X and Y along the two walls, Z up. Rows are A1..A4, columns are {x, y, z}.
  *
- * The anchor is the point where the line LEAVES THE PULLEY SHEAVE — not the
+ * The anchor is the point where the line LEAVES THE PULLEY SHEAVE, not the
  * pulley axle centre, and not the winch. See docs/calibration.md section 2.
  *
  * These placeholders describe a 3000 x 3000 x 2400 mm room and are wrong for
@@ -265,7 +265,7 @@ void setHome(float x, float y, float z) {
 }
 
 /*
- * Move the platform. Blocks until every motor arrives — MultiStepper's
+ * Move the platform. Blocks until every motor arrives, MultiStepper's
  * runSpeedToPosition() does not return early, so serial is not serviced during
  * a move and there is no software E-stop. Cut power or pull the safety tether.
  */
@@ -337,7 +337,7 @@ void handleCommand(char *line) {
   char *rest = line + 1;
   char *cursor = rest;
 
-  // Single-quoted char literals — 'M' is a char, "M" is a string and will not
+  // Single-quoted char literals, 'M' is a char, "M" is a string and will not
   // compare correctly here.
   switch (cmd) {
 

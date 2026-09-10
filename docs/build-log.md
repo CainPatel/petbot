@@ -5,18 +5,18 @@ entry whenever the hardware changes.
 
 > **Seeded entries.** The entries below were reconstructed when this repo was
 > scaffolded on 2026-09-01. The events are real; the exact dates are
-> approximate. Correct any that are wrong — from this point on, log as you go.
+> approximate. Correct any that are wrong, from this point on, log as you go.
 
 ---
 
-## 2026-09-09 — Demo recorded
+## 2026-09-09: Demo recorded
 
 Full delivery sequence on video: park → treat bowl → grab → lift → crate →
 release → park, driven from the `control.py` page while the YOLO feed ran.
 `docs/media/demo.mp4`. Platform powered from a USB bank, not the LiPo (see
 2026-09-07).
 
-## 2026-09-07 — v2 drum in service; D8 dead; claw power (dates approximate)
+## 2026-09-07: v2 drum in service; D8 dead; claw power (dates approximate)
 
 Several things landed in the final week and were not logged at the time.
 Reconstructed from the code and the README on 2026-09-10.
@@ -25,16 +25,16 @@ Reconstructed from the code and the README on 2026-09-10.
   1524 mm, `steps_per_mm = 10.5`. No repeat samples and no fill-level
   series, so its spread is not known. `docs/results.md` stays empty for v2.
 - **Uno D8 stopped driving.** Winch 4 DIR moved to D11. Winch 4's coil
-  pairs are also swapped relative to the other three motors — wire colours
+  pairs are also swapped relative to the other three motors, wire colours
   did not identify pairs, a meter did (1–5 Ω across a coil, open across two)
-  — so its direction is set in hardware, not with an invert flag.
+ , so its direction is set in hardware, not with an invert flag.
 - **Breadboard power distribution failed under four motors.** Three would
   run and a fourth would drop out, a different one each time. Breadboard
   contacts are rated 1–2 A and get worse with every reseat. Moved VM/GND
   distribution off the breadboard.
 - **End effector is a servo claw**, not the gravity gate: SG90 with rubber
   bands on the jaws for compliance, driven by `esp32/esp32_claw.cpp`. One
-  servo was destroyed earlier by commanding it past its mechanical limit —
+  servo was destroyed earlier by commanding it past its mechanical limit , 
   it stalled at full current until it cooked. The reachable range is now
   found with the horn detached, and the code detaches after every move.
 - **SSD1306 face and ArduinoOTA** added to the ESP32 so it can be reflashed
@@ -52,11 +52,11 @@ Reconstructed from the code and the README on 2026-09-10.
   at y ≈ 3494 mm of 4343 (about 80%). The treat bowl had been against a wall;
   it moved.
 
-## 2026-08-24 — Spool radius variation found; v2 drum designed
+## 2026-08-24: Spool radius variation found; v2 drum designed
 
 Calibrating `steps_per_mm` gave results that would not settle. Eleven samples on
 the 15.6 mm core drum ranged from 52.39 to 60.33 mm per revolution, mean 56.72,
-sample SD 2.57 mm/rev — 4.5% of the mean. Raw data in `docs/calibration.md`.
+sample SD 2.57 mm/rev, 4.5% of the mean. Raw data in `docs/calibration.md`.
 
 The cause is not measurement noise. The line wraps in layers, so the effective
 radius the cable actually leaves at depends on how full the drum is, and with a
@@ -80,7 +80,7 @@ Actions:
 
 Not yet resolved. v2 is in design, not printed, and has no dataset of its own.
 
-## 2026-08-17 — Pi 5 camera ribbon orientation
+## 2026-08-17: Pi 5 camera ribbon orientation
 
 The camera stayed undetected through several reseats. Two separate problems:
 
@@ -88,13 +88,13 @@ The camera stayed undetected through several reseats. Two separate problems:
    the ArduCam box does not fit it. A 22-pin → 15-pin adapter cable is
    required, and is not included with either the Pi or the camera.
 2. Orientation: on the **Pi 5 end, the gold contacts face *toward* the USB
-   ports.** Backwards gives no error, no warning, and no camera — just an empty
+   ports.** Backwards gives no error, no warning, and no camera, just an empty
    list from `rpicam-hello --list-cameras`.
 
 Recorded here because it is invisible from the software side and cost most of
 an evening.
 
-## 2026-08-10 — Wrong OS image flashed
+## 2026-08-10: Wrong OS image flashed
 
 Flashed Ubuntu onto the Pi 5 out of habit. `picamera2` and the `rpicam` stack
 are packaged for Raspberry Pi OS; getting the camera working under Ubuntu was
@@ -103,10 +103,10 @@ not worth the fight.
 Reflashed **Raspberry Pi OS (64-bit)** and the camera stack worked from apt with
 no manual intervention. `scripts/setup_pi.sh` assumes Raspberry Pi OS for this
 reason and installs `python3-picamera2` and `python3-opencv` from apt rather
-than pip — which is also why the venv must be created with
+than pip, which is also why the venv must be created with
 `--system-site-packages`.
 
-## 2026-07-27 — TMC2209 destroyed by reversed VM/GND
+## 2026-07-27: TMC2209 destroyed by reversed VM/GND
 
 Wired a driver's motor supply backwards. The driver died instantly and the
 supply wire got hot enough to soften its insulation before power was cut. No
@@ -125,10 +125,10 @@ common net. Both are written up in `docs/hardware.md`.
 
 Cost: one driver. Buy a spare.
 
-## 2026-07-13 — Printer swapped: Ender 3 → Bambu A1 mini
+## 2026-07-13: Printer swapped: Ender 3 → Bambu A1 mini
 
 The Ender 3 was consuming more time in tuning than the project was getting back
-in parts, and the pulley housings need dimensional repeatability — the 608
+in parts, and the pulley housings need dimensional repeatability, the 608
 bearing pocket and the M8 axle bore have to come out right first time or the
 sheave binds.
 
@@ -140,7 +140,7 @@ Constraint worth remembering: the A1 mini's build volume is 180 mm cubed, which
 is what sets the 60 mm flange diameter on the v2 spool and means larger parts
 have to be split.
 
-## 2026-06-29 — Pivot: laundry picker → pet monitoring
+## 2026-06-29: Pivot: laundry picker → pet monitoring
 
 The project started as a cable robot that would pick laundry off a bedroom
 floor. Grasping arbitrary crumpled fabric turned out to be a hard manipulation
@@ -148,8 +148,8 @@ problem in its own right, entirely separate from the cable-robot problem that
 was actually interesting.
 
 Pivoted to **pet room monitoring**: the platform carries a camera view and a
-gravity treat gate instead of a gripper. The motion problem is unchanged — four
-cables, four winches, inverse kinematics — but the end effector becomes a servo
+gravity treat gate instead of a gripper. The motion problem is unchanged, four
+cables, four winches, inverse kinematics, but the end effector becomes a servo
 flap that drops a treat, which is tractable.
 
 Everything upstream of the end effector carried over unchanged.

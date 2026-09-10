@@ -3,7 +3,7 @@
 Three procedures. Each is written so that someone who has never touched this
 machine can repeat it and get a comparable number.
 
-Do all three in this order — the homography depends on nothing, but the anchor
+Do all three in this order, the homography depends on nothing, but the anchor
 coordinates and `steps_per_mm` both feed the firmware, and validating motion
 before those are right will only waste line.
 
@@ -34,18 +34,18 @@ you get depends on how much line was already on the drum when you measured.
    and an unloaded measurement reads consistently high.
 3. **Mark the reference.** Put a fine marker line across both the cable and a
    fixed point on the bracket, at the point where the line leaves the drum.
-4. **Command a known step count.** One full revolution — 1600 steps — is the
+4. **Command a known step count.** One full revolution, 1600 steps, is the
    convenient unit. Use several revolutions if the resolution of your tape is
    the limiting factor, and divide.
 5. **Measure the paid-out length** from the mark to its new position, in mm,
    with the line still under load.
 6. **Repeat at least 5 times.** More is better; the dataset below is 11.
-7. **Repeat the whole set at three drum fill levels** — near empty, half, full
-   — and record all three separately in `docs/results.md`. A single mean hides
+7. **Repeat the whole set at three drum fill levels**, near empty, half, full
+  , and record all three separately in `docs/results.md`. A single mean hides
    exactly the error that dominates this machine.
 8. Compute mean and spread for each fill level.
 
-### Recorded dataset — 15.6 mm core drum (v1)
+### Recorded dataset: 15.6 mm core drum (v1)
 
 11 samples, mm of line paid out per revolution:
 
@@ -77,7 +77,7 @@ error on this machine. That is the entire reason for the v2 drum redesign
 Put the per-fill-level numbers in the first table of `docs/results.md`, then
 copy the working mean into `steps_per_mm` in
 `firmware/uno_winches.cpp`. It is deliberately **not**
-`const` there — the long-term fix is to make it a function of paid-out length.
+`const` there, the long-term fix is to make it a function of paid-out length.
 
 ---
 
@@ -87,7 +87,7 @@ copy the working mean into `steps_per_mm` in
 
 The position of each of the four anchors, in the room frame, in mm.
 
-**The anchor is the point where the line leaves the pulley sheave — not the
+**The anchor is the point where the line leaves the pulley sheave, not the
 pulley axle centre, and not the winch.** The IK measures distance from the
 platform to the last point the cable touches before its free span. Using the
 axle centre puts every anchor off by roughly the sheave radius (~15 mm here) in
@@ -102,7 +102,7 @@ the workspace.
 
 1. **Define the origin.** Pick the floor corner below anchor 1. Mark it. X runs
    along one wall, Y along the other, Z is up. Write down which wall is which
-   and stick to it — swapping X and Y halfway through is the classic way to
+   and stick to it, swapping X and Y halfway through is the classic way to
    lose an afternoon.
 2. **Measure X and Y for each anchor** by dropping a plumb line (a weight on a
    string) from the pulley's line-exit point to the floor, marking the floor,
@@ -138,7 +138,7 @@ floor coordinates in mm. This is what turns "the dog is at pixel (812, 640)"
 into "the dog is at (1830 mm, 1140 mm)".
 
 A homography is only valid for **one plane**. This one is the floor. Anything
-off the floor — including the platform itself, hanging in mid-air — maps
+off the floor, including the platform itself, hanging in mid-air, maps
 incorrectly through it, which is why `vision/track_platform.py` needs the
 platform's marker to be interpreted with that caveat in mind.
 
@@ -146,7 +146,7 @@ platform's marker to be interpreted with that caveat in mind.
 
 1. **Fix the camera and the focus first.** Mount the camera where it will
    permanently live, set manual focus (`AfMode: 0`, `LensPosition` in dioptres
-   — see `vision/config.example.yaml`), and do not touch either again. Any
+  , see `vision/config.example.yaml`), and do not touch either again. Any
    change to camera pose or lens invalidates `H` completely.
 2. **Place four floor markers.** Requirements, all of which matter:
    - **Spread wide.** They should cover as much of the usable floor area as
@@ -159,7 +159,7 @@ platform's marker to be interpreted with that caveat in mind.
    - A printed ArUco marker at each point makes step 4 automatic and much more
      repeatable than clicking pixels by eye.
 3. **Measure their real positions in mm** from the same origin used for the
-   anchors, along the same X and Y walls. Same frame, same origin — mixing
+   anchors, along the same X and Y walls. Same frame, same origin, mixing
    frames here is a silent, systematic error.
 4. **Read their pixel coordinates.** Either enter them manually, or let
    `vision/calibrate_homography.py` find the ArUco corners automatically. Use
@@ -175,7 +175,7 @@ platform's marker to be interpreted with that caveat in mind.
    `data/calibration/homography.npy`.
 6. **Read the self-test.** The script maps the four source points back through
    `H` and prints the residual against the measured destination for each. These
-   are fit residuals, not accuracy — four points fit a homography exactly, so
+   are fit residuals, not accuracy, four points fit a homography exactly, so
    residuals near zero prove only that the arithmetic ran. They are still worth
    reading: a large residual means a typo.
 7. **Validate independently.** This is the step that actually tells you

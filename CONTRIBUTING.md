@@ -15,7 +15,7 @@ On a laptop, without camera hardware, `pip install -r vision/requirements.txt`
 into any venv is enough for everything except `detect.py` and
 `track_platform.py`.
 
-Never commit `vision/config.yaml` — it is gitignored, and it holds your serial
+Never commit `vision/config.yaml`, it is gitignored, and it holds your serial
 port and network details. Edit `config.example.yaml` when you add a *key*; edit
 `config.yaml` when you set a *value*.
 
@@ -31,7 +31,7 @@ pio run -e uno -t upload
 ```
 
 Before uploading a change that touches motion, re-read the two hard rules in
-`docs/hardware.md` and confirm the pin map still matches the wiring —
+`docs/hardware.md` and confirm the pin map still matches the wiring , 
 including winch 4's DIR on D11.
 
 **ESP32.** Copy `esp32/secrets.example.h` to `esp32/secrets.h` and put your
@@ -55,7 +55,7 @@ pip install black
 black vision/ control/
 ```
 
-Arduino/C++: follow what is already in the sketches — two-space indent, braces
+Arduino/C++: follow what is already in the sketches, two-space indent, braces
 on the same line, `const` on anything that is not meant to change.
 
 ## Comments

@@ -2,7 +2,7 @@
 #include <AccelStepper.h>
 #include <MultiStepper.h>
 
-// constructor(interface, STEP, DIR) — all four wired DIR-first, so swapped here
+// constructor(interface, STEP, DIR), all four wired DIR-first, so swapped here
 AccelStepper w[4] = {
   AccelStepper(AccelStepper::DRIVER, 3, 2),   // winch 1
   AccelStepper(AccelStepper::DRIVER, 5, 4),   // winch 2
@@ -15,9 +15,9 @@ MultiStepper winches;
 
 // Pulley exit points, mm. Origin = winch 3 corner (under the ArduCam).
 const float A[4][3] = {
-  {3632, 4343, 2794},   // winch 1 — by the door
+  {3632, 4343, 2794},   // winch 1, by the door
   {3632,    0, 2794},   // winch 2
-  {   0,    0, 2794},   // winch 3 — origin
+  {   0,    0, 2794},   // winch 3, origin
   {   0, 4343, 2794}    // winch 4
 };
 

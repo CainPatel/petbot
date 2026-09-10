@@ -34,7 +34,7 @@ is over-constrained: three lengths already determine a point (up to reflection),
 so four measurements of an imperfect system will not intersect anywhere. Solving
 it properly means a least-squares fit over the four constraints, and with
 open-loop steppers there is nothing to feed it that is more trustworthy than the
-commanded position anyway. Ground truth comes from the camera instead — see
+commanded position anyway. Ground truth comes from the camera instead, see
 `vision/track_platform.py`.
 
 ## The fixed winch-to-pulley run
@@ -47,7 +47,7 @@ winch and its pulley are both bolted to the building and neither moves. A
 constant offset in Lᵢ is indistinguishable from a constant offset in the
 motor's zero position, so it is absorbed entirely by homing. When
 `setHome(x, y, z)` runs, it writes each motor's step counter to
-`computeLengths(...) × steps_per_mm` — the fixed run simply never appears in
+`computeLengths(...) × steps_per_mm`, the fixed run simply never appears in
 the arithmetic.
 
 The anchor **A**ᵢ is therefore the point where the line *leaves the pulley
@@ -66,7 +66,7 @@ that
 
 With four cables and three translational degrees of freedom the system is
 redundant by one, which is what makes non-negative tension solutions possible at
-all — but only inside part of the volume. Near an anchor, or near the floor
+all, but only inside part of the volume. Near an anchor, or near the floor
 under the anchor footprint, or outside the footprint entirely, at least one
 cable would have to push, and the platform simply falls or goes slack instead.
 
@@ -92,7 +92,7 @@ Two properties worth stating plainly, because both surprise people:
 - **`MultiStepper` ignores acceleration.** `setAcceleration()` on the member
   `AccelStepper` objects has no effect during a `MultiStepper` move. Motion is
   constant-speed, with an instantaneous start and stop. Keep `setMaxSpeed()`
-  low enough that the motors can start at that speed without stalling —
+  low enough that the motors can start at that speed without stalling , 
   a stall here is a silent skipped step, which corrupts position permanently.
 - **`runSpeedToPosition()` blocks** until every motor arrives. The firmware
   cannot service serial during a move. That is accepted for now; an E-stop

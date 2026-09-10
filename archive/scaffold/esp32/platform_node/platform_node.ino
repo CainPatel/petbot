@@ -23,7 +23,7 @@
 // Credentials
 //
 // DO NOT COMMIT REAL CREDENTIALS. Replace these placeholders locally and keep
-// the replacement out of git — either leave the edit unstaged, or move the two
+// the replacement out of git, either leave the edit unstaged, or move the two
 // defines into a secrets.h (already listed in .gitignore) and #include it.
 // ---------------------------------------------------------------------------
 #define WIFI_SSID     "YOUR_SSID_HERE"
@@ -36,7 +36,7 @@ const int SERVO_PIN   = 13;   // PWM-capable pin driving the treat gate servo
 const int BATTERY_PIN = 34;   // ADC1 input-only pin, fed by a divider off the LiPo
 
 // ---------------------------------------------------------------------------
-// Gate geometry — measure these on the printed flap, they are not universal
+// Gate geometry, measure these on the printed flap, they are not universal
 // ---------------------------------------------------------------------------
 const int GATE_CLOSED_DEG = 10;
 const int GATE_OPEN_DEG   = 90;

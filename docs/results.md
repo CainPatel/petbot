@@ -2,7 +2,7 @@
 
 **Every table on this page is empty on purpose.** Nothing here is filled in
 until it has actually been measured on the machine. If a row has no number, the
-measurement has not been done — not "roughly this" and not "should be about".
+measurement has not been done, not "roughly this" and not "should be about".
 
 Procedures for producing each table are in `docs/calibration.md`.
 
@@ -12,7 +12,7 @@ Procedures for producing each table are in `docs/calibration.md`.
 
 Method: `docs/calibration.md` §1. Record every raw sample, not just the mean.
 
-### v1 drum — 15.6 mm core (superseded)
+### v1 drum: 15.6 mm core (superseded)
 
 | Fill level | n | Mean (mm/rev) | Min | Max | SD | SD as % of mean | Implied steps/mm |
 |---|---|---|---|---|---|---|---|
@@ -25,7 +25,7 @@ The pooled row is the dataset recorded in `docs/calibration.md`; it was taken
 without separating fill levels, which is precisely the gap the three rows above
 it are meant to close.
 
-### v2 drum — 40 mm core
+### v2 drum: 40 mm core
 
 | Fill level | n | Mean (mm/rev) | Min | Max | SD | SD as % of mean | Implied steps/mm |
 |---|---|---|---|---|---|---|---|
@@ -36,7 +36,7 @@ it are meant to close.
 
 Only one number exists for the v2 drum so far: **16000 steps paid out
 1524 mm**, i.e. 152.4 mm/rev, `steps_per_mm = 10.5`. That is a single
-sample at one unrecorded fill level, so the table stays empty — it says
+sample at one unrecorded fill level, so the table stays empty, it says
 nothing about spread.
 
 Target: SD under 1% of mean. If the v2 drum does not beat the v1 spread
@@ -49,7 +49,7 @@ plainly.
 
 Method: home the platform, command each target, let it settle, measure the
 actual platform position with a tape from the room origin. At least 8 points,
-spread across the workspace including near the edges of the usable volume —
+spread across the workspace including near the edges of the usable volume , 
 not 8 points clustered in the easy middle.
 
 Error magnitude is `√(Δx² + Δy² + Δz²)`.
@@ -108,7 +108,7 @@ row so this can be accounted for later.
 Method: run `vision/detect.py` against each scenario for a fixed number of
 frames. Count a frame as a detection if the correct class (15 cat / 16 dog) is
 returned above the configured confidence threshold. Record false positives
-separately — a system that detects a cushion as a cat is not working, however
+separately, a system that detects a cushion as a cat is not working, however
 good the recall column looks.
 
 | Scenario | Frames | Detections | Rate | Confidence range | False positives |
@@ -128,7 +128,7 @@ good the recall column looks.
 
 ---
 
-## Interpretation — which error source dominates
+## Interpretation: which error source dominates
 
 *Written once tables 1–3 exist. Do not write it before.*
 
@@ -142,7 +142,7 @@ The candidates, and how to separate them:
   error, and compare against table 2's mean error. If it accounts for most of
   the error, the v2 drum is the priority and nothing else matters much yet.
 - **Anchor coordinate error.** Systematic and position-dependent. Its signature
-  is error that varies smoothly across the workspace rather than randomly — if
+  is error that varies smoothly across the workspace rather than randomly, if
   the table 2 errors all point roughly the same direction in one region and the
   opposite direction in another, suspect the anchors.
 - **Sheave exit-point migration.** Also position-dependent, bounded at roughly

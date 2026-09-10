@@ -10,6 +10,6 @@ PlatformIO sources that actually ran the demo:
 | `esp32/platform_node/platform_node.ino` (gravity treat gate) | `esp32/esp32_claw.cpp` |
 | `esp32/claw_node/claw_node.ino` (non-blocking two-servo claw) | `esp32/esp32_claw.cpp` |
 
-They differ from the live code in ways that matter — winch 4 DIR on D8
+They differ from the live code in ways that matter, winch 4 DIR on D8
 instead of D11, an `ok`/`err` serial reply format the host no longer speaks,
 no OLED, no OTA. Kept for reference only; nothing builds them.
