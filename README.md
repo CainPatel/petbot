@@ -2,7 +2,7 @@
 
 # petbot
 
-**A cable-driven parallel robot that watches a pet room and delivers treats.**
+**A cable-driven parallel robot that watches a pet room and carries a claw to the treat bowl.**
 
 Four winches, four lines, one platform that can reach almost any point in the room.
 A Raspberry Pi sees the dog, an Arduino solves the geometry, an ESP32 works the claw.
@@ -16,7 +16,7 @@ A Raspberry Pi sees the dog, an Arduino solves the geometry, an ESP32 works the 
 [![Python](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](control.py)
 [![Build cost](https://img.shields.io/badge/build%20cost-~%24350-2ea44f)](#bill-of-materials)
 
-<a href="docs/media/demo.mp4"><img src="docs/media/demo.gif" alt="Full delivery sequence: park, descend to the treat bowl, grip, lift, traverse to the crate, release" width="720"></a>
+<a href="docs/media/demo.mp4"><img src="docs/media/demo.gif" alt="Full delivery sequence: park, descend to the treat bowl, close the claw, lift, traverse to the crate, release" width="720"></a>
 
 *Full delivery run at 8x speed. Claw unfortunately didn't close enough to pick up the treat. Click for the [real-time video](docs/media/demo.mp4) (2 min 49 s).*
 
@@ -54,13 +54,14 @@ release, all while watching a live YOLO-annotated feed of the room.
 - **Straight-line motion** from coordinated multi-axis stepping.
 - **Live pet detection** on a Raspberry Pi 5 with YOLOv8n, streamed to any
   browser on the network.
-- **A one-click delivery sequence** that picks a treat out of a bowl and drops
-  it in the crate.
+- **A one-click delivery sequence**: bowl, grab, lift, crate, release. In the
+  recorded run every move landed but the claw did not close far enough to
+  pick up the treat, so the sequence is proven and the grip is not.
 - **Honest numbers**: every measurement, every failure and every unresolved
   problem is written down below.
 
-Built in three weeks, from first stepper on a breadboard to a working delivery
-sequence.
+Built in three weeks, from first stepper on a breadboard to a full delivery
+run with an empty claw.
 
 - **Want to build one?** Start with [docs/build-guide.md](docs/build-guide.md).
 - **Want the maths and software explained from the ground up?** Read
@@ -137,9 +138,8 @@ coordinates; the ESP32 executes claw commands. Neither knows the other exists.
 | `control/` | Serial wrapper and autonomous mission loop |
 | `control.py` | Flask control page: live feed, moves, claw, delivery sequence |
 | `platformio.ini` | Build and upload envs for both boards (`uno`, `esp32`, `esp32_usb`) |
-| `cad/` | Spools, pulley housings, motor brackets, platform |
+| `cad/` | Index of the printed parts; the files themselves are on [cainpatel.com](https://cainpatel.com/projects) |
 | `docs/` | Build guide, how it works, kinematics, calibration, build log, results |
-| `archive/` | Pre-hardware scaffold sketches, kept for reference only |
 
 ## Serial protocol
 
@@ -384,6 +384,13 @@ connecting it to anything, and `detach()` after every move.
   estimated to measured
 - 5 V boost converter for the claw so the platform runs on a LiPo again
 - Mechanical pulley anchors
+
+## Credits
+
+- Claw design inspired by the [SG90 servo gripper on GrabCAD](https://grabcad.com/library/gripper-servo-sg90-1).
+- AccelStepper and MultiStepper by Mike McCauley. Ultralytics YOLO. OpenCV.
+  Picamera2 by Raspberry Pi Ltd. U8g2 by olikraus. ESP32Servo by Kevin
+  Harrington.
 
 ## License
 

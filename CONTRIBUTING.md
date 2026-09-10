@@ -43,9 +43,6 @@ pio run -e esp32_usb -t upload
 pio run -e esp32 -t upload        # ArduinoOTA to the static IP in platformio.ini
 ```
 
-The scaffold-era Arduino-IDE sketches live in `archive/scaffold/` and are not
-built.
-
 ## Code style
 
 Python: **black**, default settings.

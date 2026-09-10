@@ -16,6 +16,13 @@ release → park, driven from the `control.py` page while the YOLO feed ran.
 `docs/media/demo.mp4`. Platform powered from a USB bank, not the LiPo (see
 2026-09-07).
 
+**The claw did not pick up the treat.** Every move landed and the claw
+cycled on cue, but the jaws did not close far enough to grip, so the
+platform flew the crate leg empty. Not diagnosed yet; the candidates are the
+bowl waypoint's z (jaws 140 mm below the cable plane), `CLOSED_ANGLE`, and
+the rubber-band tension. The motion side of the sequence is proven; the
+grip is not.
+
 ## 2026-09-07: v2 drum in service; D8 dead; claw power (dates approximate)
 
 Several things landed in the final week and were not logged at the time.

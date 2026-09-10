@@ -1,7 +1,9 @@
 # CAD
 
-Printed parts. Source files live in the subdirectories; this page is the index
-of what exists, what it is dimensioned for, and whether it works.
+Printed parts. **The STL and STEP files are hosted on
+[cainpatel.com](https://cainpatel.com/projects)**, not in this repo. This
+page is the index of what exists, what it is dimensioned for, and whether it
+works.
 
 ## Parts
 
@@ -12,6 +14,7 @@ of what exists, what it is dimensioned for, and whether it works.
 | Corner pulley housing | 45° wedge, U-groove 608 bearing (30 mm OD / 8 mm bore / 10 mm wide), M8 axle, 12 mm cheek gap, 5 mm cheeks | printed |
 | NEMA 17 bracket | 42.3 mm motor face, 31 mm hole pattern, M3 | printed |
 | Platform | 4 symmetric cable ears, ESP32 + SG90 claw + OLED mounts, flat top for the ArUco marker | printed, flew the demo |
+| Claw | two jaws on an SG90, rubber-band compliance; design inspired by [this SG90 gripper on GrabCAD](https://grabcad.com/library/gripper-servo-sg90-1) | printed; did not close far enough on the treat in the demo |
 
 ## Notes per part
 

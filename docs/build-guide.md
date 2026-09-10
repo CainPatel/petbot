@@ -4,7 +4,7 @@ How to build your own petbot from the parts list in this repo. Written for
 someone comfortable with a 3D printer, a soldering iron and a multimeter,
 who has not built a cable robot before.
 
-Budget about **$350** in parts and **two weeks** of evenings. The order below
+Budget about **$350** in parts and **three weeks** of evenings. The order below
 is the order that would have saved the most time on the original build:
 measure and test the scary things first, and keep every subsystem working on
 its own before joining them.
@@ -70,8 +70,9 @@ each, and both were the cheapest parts in the box.
 
 ## 3. Print the parts
 
-Source files are indexed in [cad/README.md](../cad/README.md), which also
-lists the dimensions each part was designed around.
+The printable files are hosted on [cainpatel.com](https://cainpatel.com/projects),
+not in this repo. [cad/README.md](../cad/README.md) is the index of what
+each part is, what it was dimensioned around, and whether it worked.
 
 | Part | Qty | Notes |
 |---|---|---|
@@ -79,7 +80,7 @@ lists the dimensions each part was designed around.
 | Corner pulley housing, 45° | 4 | takes a 608 U-groove bearing on an M8 axle |
 | NEMA 17 bracket | 4 | standard 31 mm bolt pattern |
 | Platform box | 1 | four symmetric cable ears, cutouts for the OLED and servo stalk |
-| Claw | 1 | two jaws, servo horn mount |
+| Claw | 1 | two jaws, servo horn mount; design inspired by [this SG90 gripper on GrabCAD](https://grabcad.com/library/gripper-servo-sg90-1) |
 
 Settings that matter: **PETG**, 5 walls, 35 to 40% infill. PLA creeps under
 constant load and the pulley housings are loaded every second the machine is
@@ -332,9 +333,13 @@ it.
 
 Put a treat in the bowl, the bowl under the bowl waypoint, and click
 **deliver treat**. The sequence is park, open, bowl, settle, grab, lift,
-crate, settle, release, park. If the claw closes on air, adjust the bowl
-waypoint's z (the jaws hang 140 mm below the cable plane on the original
-platform) or the `CLOSED_ANGLE`.
+crate, settle, release, park.
+
+Expect to tune the grip. On the original build every move landed but the
+jaws did not close far enough to pick the treat up, and the crate leg flew
+empty. The three things to adjust, in order: the bowl waypoint's z (the jaws
+hang 140 mm below the cable plane on the original platform), `CLOSED_ANGLE`
+in the ESP32 sketch, and the rubber-band tension on the jaws.
 
 Then write down what happened in `docs/build-log.md`, including what did not
 work. That is the part of this repo that was most useful to write.
