@@ -8,9 +8,9 @@ current price. Quantities are for one complete machine.
 | Item | Qty | Notes | Approx cost |
 |---|---|---|---|
 | NEMA 17 stepper (42×42, ~1.5 A/phase, 5 mm shaft) | 4 | One per winch. 5 mm D-shaft matches the v2 spool bore. | £48 (4× £12) |
-| TMC2209 stepper driver, BTT V1.1 | 4 | **Standalone mode** — no UART. 0.11 Ω sense resistors, which sets the VREF formula below. One spare is worth buying; see build log. | £24 (4× £6) |
-| Arduino Uno | 1 | Runs the IK and MultiStepper group. D2–D10 used. | £20 |
-| 12 V PSU, 6 A or better | 1 | Four steppers at ~0.78 A RMS plus driver overhead. Do not undersize. | £15 |
+| TMC2209 stepper driver, BTT V1.2 | 4 | **Standalone mode** — no UART. 0.11 Ω sense resistors, which sets the VREF formula below. One spare is worth buying; see build log. | £24 (4× £6) |
+| Arduino Uno | 1 | Runs the IK and MultiStepper group. D2–D7, D9–D11 used (D8 is dead — see the pin map). | £20 |
+| 12 V PSU, 10 A | 1 | Four steppers at ~0.78 A RMS plus driver overhead. Do not undersize. | £15 |
 | Inline blade fuse holder + 5 A fuse | 1 | Added after a driver was destroyed by a reversed VM/GND. Non-optional. | £4 |
 | 100 µF electrolytic capacitor, 25 V+ | 4 | **One per driver, at its own VM/GND pins.** Not one shared cap on the rail. | £3 |
 | U-groove bearing, 608 size (30 mm OD, 8 mm bore, 10 mm wide) | 4 | The corner pulley sheave. U-groove, not V-groove — the line must sit in the channel without pinching. | £10 |
@@ -22,8 +22,10 @@ current price. Quantities are for one complete machine.
 | ArduCam IMX708 | 1 | Autofocus module; driven in **manual** focus mode for a fixed room. | £25 |
 | Pi 5 camera ribbon, 22-pin → 15-pin | 1 | The Pi 5 connector is the narrow 22-pin type. The cable in the camera box does **not** fit. | £5 |
 | ESP32 DevKit | 1 | On the moving platform. WiFi HTTP server. | £8 |
-| SG90 servo (MG996R as the upgrade path) | 1 | Actuates the gravity treat gate. SG90 is adequate for a flap; MG996R if the gate binds. | £3 |
-| TP4056 charging module + LiPo (~1000 mAh) | 1 | Platform power. Keep the pack strapped, not dangling. | £10 |
+| SG90 servo | 1 | Drives the claw. Rubber bands on the jaws give the grip its compliance. | £3 |
+| SSD1306 OLED, 128×64, I²C | 1 | The platform's face. SDA on GPIO 21, SCL on GPIO 22. | £4 |
+| USB power bank, 5 V | 1 | Platform power for the demo. See the TP4056 row. | £8 |
+| TP4056 charging module + LiPo (~1000 mAh) | 1 | Intended platform power. **Does not work as-is**: the servo's current surge collapses the unregulated 3.7 V rail and resets the ESP32 (see README, *Claw power*). Needs a 5 V boost converter. | £10 |
 | Safety tether cordage | 1 | Slack line under the platform, anchored independently of the four cables. | £5 |
 | Bambu A1 mini + PETG | — | Printer already in hand; filament ~£20/kg. | — |
 
@@ -45,7 +47,11 @@ same order.
 | 1 | D3 | D2 |
 | 2 | D5 | D4 |
 | 3 | D7 | D6 |
-| 4 | D9 | D8 |
+| 4 | D9 | D11 |
+
+Winch 4's DIR is on **D11**, not D8, because D8 on this Uno stopped driving.
+Winch 4's coil pairs are also wired swapped relative to the other three, so
+its rotation sense is set in hardware and the firmware does not invert it.
 
 Shared **EN on D10**, wired to all four drivers' `EN` pins in parallel. EN on
 the TMC2209 is **active LOW**: drive it LOW to energise the motors, HIGH to
@@ -58,7 +64,7 @@ So, in one line each:
 D2  -> W1 DIR      D3  -> W1 STEP
 D4  -> W2 DIR      D5  -> W2 STEP
 D6  -> W3 DIR      D7  -> W3 STEP
-D8  -> W4 DIR      D9  -> W4 STEP
+D11 -> W4 DIR      D9  -> W4 STEP
 D10 -> EN (all four drivers, active LOW)
 ```
 
@@ -83,7 +89,7 @@ reference from the Arduino header.
 
 ## Driver setup
 
-**Mode.** BTT TMC2209 V1.1 boards in **standalone** mode — no UART, no jumper
+**Mode.** BTT TMC2209 V1.2 boards in **standalone** mode — no UART, no jumper
 on the UART pads, configuration is entirely by pin state.
 
 **Microstepping.** With MS1 and MS2 both left unconnected, the TMC2209 runs
@@ -96,7 +102,7 @@ on the UART pads, configuration is entirely by pin state.
 That 1600 is the number the firmware's `steps_per_mm` is derived from — see
 `docs/calibration.md`.
 
-**Current (VREF).** The BTT V1.1 board uses 0.11 Ω sense resistors, which gives
+**Current (VREF).** The BTT V1.2 board uses 0.11 Ω sense resistors, which gives
 
 ```
 I_RMS ≈ VREF × 0.71

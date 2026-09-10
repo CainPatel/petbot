@@ -76,7 +76,7 @@ error on this machine. That is the entire reason for the v2 drum redesign
 
 Put the per-fill-level numbers in the first table of `docs/results.md`, then
 copy the working mean into `steps_per_mm` in
-`firmware/cdpr_controller/cdpr_controller.ino`. It is deliberately **not**
+`firmware/uno_winches.cpp`. It is deliberately **not**
 `const` there — the long-term fix is to make it a function of paid-out length.
 
 ---
@@ -121,7 +121,7 @@ the workspace.
 Fill in the anchor table in `docs/kinematics.md`, then copy the same values
 into **both**:
 
-- `A[4][3]` in `firmware/cdpr_controller/cdpr_controller.ino`
+- `A[4][3]` in `firmware/uno_winches.cpp`
 - `anchors:` in `vision/config.yaml`
 
 They must match exactly. A mismatch produces a machine that moves confidently

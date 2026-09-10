@@ -21,18 +21,30 @@ port and network details. Edit `config.example.yaml` when you add a *key*; edit
 
 ## Flashing firmware
 
-**Arduino Uno.** Install the **AccelStepper** library through the Arduino IDE
-Library Manager (it ships `MultiStepper`). Open
-`firmware/cdpr_controller/cdpr_controller.ino`, select Arduino Uno and the
-right port, upload.
+Both boards build from `platformio.ini` at the repo root; the sources sit in
+`firmware/` and `esp32/` rather than `src/`.
+
+**Arduino Uno.**
+
+```bash
+pio run -e uno -t upload
+```
 
 Before uploading a change that touches motion, re-read the two hard rules in
-`docs/hardware.md` and confirm the pin map still matches the wiring.
+`docs/hardware.md` and confirm the pin map still matches the wiring —
+including winch 4's DIR on D11.
 
-**ESP32.** Install the ESP32 board support package and the **ESP32Servo**
-library. Put your WiFi credentials in `esp32/platform_node/platform_node.ino`
-and **do not commit them** — either leave that edit unstaged, or move the two
-`#define`s into a `secrets.h`, which is already gitignored.
+**ESP32.** Copy `esp32/secrets.example.h` to `esp32/secrets.h` and put your
+WiFi details there. `secrets.h` is gitignored; **never commit credentials**
+in `esp32_claw.cpp` itself. First flash over USB, then over the air:
+
+```bash
+pio run -e esp32_usb -t upload
+pio run -e esp32 -t upload        # ArduinoOTA to the static IP in platformio.ini
+```
+
+The scaffold-era Arduino-IDE sketches live in `archive/scaffold/` and are not
+built.
 
 ## Code style
 

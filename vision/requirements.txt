@@ -16,6 +16,7 @@
 
 ultralytics
 pyserial
+flask
 numpy
 pyyaml
 requests

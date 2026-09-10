@@ -8,10 +8,10 @@ of what exists, what it is dimensioned for, and whether it works.
 | Part | Key dimensions | Status |
 |---|---|---|
 | Spool v1 | 15.6 mm core | **superseded** — radius variation too high |
-| Spool v2 | 40 mm core, 30 mm wide, 60 mm flanges, 5 mm D-bore | in design |
+| Spool v2 | 40 mm core, 30 mm wide, 60 mm flanges, 5 mm D-bore | printed, in use |
 | Corner pulley housing | 45° wedge, U-groove 608 bearing (30 mm OD / 8 mm bore / 10 mm wide), M8 axle, 12 mm cheek gap, 5 mm cheeks | printed |
 | NEMA 17 bracket | 42.3 mm motor face, 31 mm hole pattern, M3 | printed |
-| Platform | 4 symmetric cable ears, ESP32 + LiPo + SG90 mounts, flat top for the ArUco marker | in design |
+| Platform | 4 symmetric cable ears, ESP32 + SG90 claw + OLED mounts, flat top for the ArUco marker | printed, flew the demo |
 
 ## Notes per part
 
@@ -19,13 +19,13 @@ of what exists, what it is dimensioned for, and whether it works.
 
 15.6 mm core. Measured payout varied from 52.39 to 60.33 mm/rev across 11
 samples (mean 56.72, sample SD 4.5%). On a core that small, each new layer of
-~0.5 mm line is a large fractional change in effective radius, so the payout
+1.5 mm line is a large fractional change in effective radius, so the payout
 per revolution depends on how full the drum is. That variation dominates the
 whole machine's position error. Full dataset in `docs/calibration.md`.
 
 Keep the file for reference; do not print more.
 
-### Spool v2 — in design
+### Spool v2 — printed, in use
 
 40 mm core, 30 mm wide, 60 mm flanges, 5 mm D-bore to match the NEMA 17 shaft.
 
@@ -41,9 +41,12 @@ Two changes, and both matter:
 60 mm flanges are set by the Bambu A1 mini's 180 mm build volume with room to
 spare for a raft-free flat print; going larger means splitting the part.
 
-Not validated. It needs its own `steps_per_mm` dataset — three fill levels,
-same procedure as v1 — before any claim is made about it. Target: SD under 1%
-of mean.
+Calibrated once: 16000 steps paid out 1524 mm, so `steps_per_mm = 10.5`
+(152.4 mm/rev). That is the only measurement taken on this drum — no repeat
+samples, no fill-level series — so its *spread* is unknown. The per-layer
+diameter change drops from 19% to 7.5% by geometry, but that has not been
+confirmed by measurement. Target when it is: SD under 1% of mean, three fill
+levels, same procedure as v1.
 
 ### Corner pulley housing — printed
 
@@ -70,9 +73,9 @@ anchor as a fixed point and does not model this.
 Standard NEMA 17 interface: 42.3 mm face, 31 mm bolt circle, M3 fasteners.
 Nothing unusual. Print orientation matters more than geometry here — see below.
 
-### Platform — in design
+### Platform — printed
 
-Carries the ESP32, the LiPo and TP4056, the SG90 servo and the treat gate, and
+Carries the ESP32, the SG90 claw servo, the SSD1306 face and its power, and
 presents a flat top face for the ArUco marker.
 
 Requirements:

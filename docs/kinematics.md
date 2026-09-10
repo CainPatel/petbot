@@ -24,7 +24,7 @@ steps_i = Lᵢ × steps_per_mm
 Four independent square roots, no iteration, no matrix. This is why an Arduino
 Uno is sufficient: a full four-axis IK solve is four `sqrt()` calls.
 
-`computeLengths(x, y, z, out[4])` in `firmware/cdpr_controller/cdpr_controller.ino`
+`computeLengths(x, y, z, out[4])` in `firmware/uno_winches.cpp`
 is exactly this expression.
 
 ## What is deliberately not solved
@@ -70,12 +70,14 @@ all — but only inside part of the volume. Near an anchor, or near the floor
 under the anchor footprint, or outside the footprint entirely, at least one
 cable would have to push, and the platform simply falls or goes slack instead.
 
-Practical consequence: **the usable volume is roughly the inner 70% of the
-anchor footprint**, and it shrinks as the platform gets close to the ceiling
-plane where the anchors are. The firmware does not solve the tension problem; it
-applies a conservative axis-aligned box via `WORKSPACE_MARGIN` and rejects
-anything outside it. That is cruder than the real constraint surface and
-deliberately more restrictive.
+Practical consequence: **the usable volume is roughly the inner 70–80% of
+the anchor footprint**, and it shrinks as the platform gets close to the
+ceiling plane where the anchors are. Measured on this room: pushing along Y,
+the winch 2 cable went slack at y ≈ 3494 mm of 4343. The firmware does not
+solve the tension problem; `inWorkspace()` checks a conservative axis-aligned
+box and **warns** if a target is outside it, then moves anyway. The host
+(`control.py`, `control/mission.py`) clamps to the same box, and that clamp is
+the real guard.
 
 ## Coordinated motion with MultiStepper
 
@@ -102,33 +104,36 @@ that is what `docs/results.md` is for.
 
 ## Anchor coordinate table
 
-Fill this in from the tape-measure procedure in `docs/calibration.md`, then copy
-the same numbers into `A[4][3]` in the Arduino sketch **and** into
-`vision/config.yaml`. They must agree; a mismatch between firmware and host is
-a very confusing bug.
+These are the values in `A[4][3]` in `firmware/uno_winches.cpp` and in
+`anchors:` in `vision/config.yaml`. They must agree; a mismatch between
+firmware and host is a very confusing bug.
 
-Origin = floor corner below anchor 1. X along one wall, Y along the other, Z up.
+Origin = floor corner below winch 3 (under the ArduCam). X along one wall,
+Y along the other, Z up. Winches sit on the floor directly below their
+pulleys; the anchor is the pulley exit point, not the winch.
 
 | Anchor | Corner | X (mm) | Y (mm) | Z (mm) |
 |---|---|---|---|---|
-| A1 | origin corner | 0 | 0 | |
-| A2 | +Y from origin | 0 | | |
-| A3 | far corner | | | |
-| A4 | +X from origin | | 0 | |
-
-Room dimensions for reference:
+| A1 | winch 1, by the door | 3632 | 4343 | 2794 |
+| A2 | winch 2 | 3632 | 0 | 2794 |
+| A3 | winch 3, origin | 0 | 0 | 2794 |
+| A4 | winch 4 | 0 | 4343 | 2794 |
 
 | Quantity | Value (mm) |
 |---|---|
-| Room X extent | |
-| Room Y extent | |
-| Anchor height (Z) | |
-| Winch height (waist level, Z) | |
+| Room X extent | 3632 |
+| Room Y extent | 4343 |
+| Anchor height (Z) | 2794 |
+| Winch height (floor level, Z) | 0 |
 
-Notes when filling this in:
+Notes:
 
-- Z for all four anchors is usually *nearly* equal but rarely exactly equal.
-  Measure each one; do not copy the first.
-- If the room is not a clean rectangle, the table still works — the IK never
-  assumes one. Only the `WORKSPACE_MARGIN` box does, which is why it is
-  conservative.
+- All four anchor Z values were taken as equal. They are usually *nearly*
+  equal but rarely exactly so; remeasure each one if position error looks
+  systematic near one corner.
+- The IK never assumes a rectangle. Only the safe box in `inWorkspace()`
+  does, which is why it is conservative: x 400–3200, y 500–3800,
+  z 300–2300. The host's box in `vision/config.yaml` allows z up to 2400
+  because the park waypoint at that height was verified taut; the firmware
+  prints its WARN line for that move and proceeds. The measured tension
+  limit on the Y axis was y ≈ 3494 mm, where the winch 2 cable went slack.

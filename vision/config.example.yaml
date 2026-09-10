@@ -1,4 +1,4 @@
-# cdpr-petbot configuration.
+# petbot configuration.
 #
 # Copy to vision/config.yaml and fill in for your room and hardware.
 # config.yaml is gitignored; this example file is tracked.
@@ -48,35 +48,69 @@ serial:
   move_timeout_s: 60.0
 
 esp32:
-  # Printed on the ESP32 serial console at boot. Give it a DHCP reservation on
-  # the router or this will change.
-  base_url: http://192.168.1.50
+  # esp32/esp32_claw.cpp sets a static IP; keep this and platformio.ini's
+  # upload_port in step with it.
+  base_url: http://192.168.1.119
 
   request_timeout_s: 5.0
+
+  # What control/mission.py calls to drop a treat. With the claw that is
+  # "open the jaws".
+  dispense_endpoint: /release
 
 calibration:
   homography: data/calibration/homography.npy
 
 room:
-  # Origin is one floor corner; X and Y run along the two walls, Z is up.
-  # All millimetres.
-  x_mm: 3000
-  y_mm: 3000
-  z_mm: 2400
+  # Origin is the floor corner under winch 3 (below the ArduCam); X and Y run
+  # along the two walls, Z is up. All millimetres. Pulley exit points at
+  # 2794 mm; winches on the floor directly below their pulleys.
+  x_mm: 3632
+  y_mm: 4343
+  z_mm: 2794
 
 # Anchor coordinates: the point where the line LEAVES THE PULLEY SHEAVE.
-# These MUST match A[4][3] in firmware/cdpr_controller/cdpr_controller.ino.
-# See docs/calibration.md section 2.
+# Numbered as the firmware numbers winches. These MUST match A[4][3] in
+# firmware/uno_winches.cpp. See docs/calibration.md section 2.
 anchors:
-  a1: [0,    0,    2400]   # origin corner
-  a2: [0,    3000, 2400]   # +Y from origin
-  a3: [3000, 3000, 2400]   # far corner
-  a4: [3000, 0,    2400]   # +X from origin
+  a1: [3632, 4343, 2794]   # winch 1 — by the door
+  a2: [3632,    0, 2794]   # winch 2
+  a3: [   0,    0, 2794]   # winch 3 — origin corner
+  a4: [   0, 4343, 2794]   # winch 4
+
+# Safe box the host clamps every target into. The firmware's inWorkspace()
+# in firmware/uno_winches.cpp only WARNS on a target outside its own box and
+# then moves anyway, so this clamp is the real guard. Measured edge: the
+# winch 2 cable went slack at y ≈ 3494 mm.
+#
+# z_max is 2400 here, not the firmware's 2300: the park waypoint at z 2400
+# was verified taut in the demo. Expect the firmware's WARN line on that
+# move; it is harmless. Raise the firmware bound if that gets annoying.
+workspace:
+  x_min: 400
+  x_max: 3200
+  y_min: 500
+  y_max: 3800
+  z_min: 300
+  z_max: 2400
+
+# Named positions for control.py. z is the cable attachment plane; the claw
+# hangs claw_drop_mm below it. All verified taut in the demo.
+waypoints:
+  park:  [1500, 1750, 2400]
+  bowl:  [1500, 1750, 1800]
+  crate: [2400, 2200, 1600]
 
 platform:
-  # Height the platform is flown at during normal operation, mm.
-  cruise_z_mm: 1200
+  # Height control/mission.py flies at when chasing a detection, mm.
+  cruise_z_mm: 1800
 
-  # ArUco marker on the platform's flat top.
+  # Seconds to let the platform stop swinging before working the claw.
+  settle_s: 1.5
+
+  # Claw jaws sit this far below the cable attachment plane.
+  claw_drop_mm: 140
+
+  # ArUco marker on the platform's flat top (vision/track_platform.py).
   aruco_dict: DICT_4X4_50
   aruco_id: 4

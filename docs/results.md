@@ -34,6 +34,11 @@ it are meant to close.
 | Full | | | | | | | |
 | **Pooled** | | | | | | | |
 
+Only one number exists for the v2 drum so far: **16000 steps paid out
+1524 mm**, i.e. 152.4 mm/rev, `steps_per_mm = 10.5`. That is a single
+sample at one unrecorded fill level, so the table stays empty — it says
+nothing about spread.
+
 Target: SD under 1% of mean. If the v2 drum does not beat the v1 spread
 substantially, the redesign did not work and that should be written down here
 plainly.

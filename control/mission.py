@@ -9,7 +9,7 @@ Ties the pieces together:
        (vision/calibrate_homography.pixel_to_floor)
     4. clamp the target into the safe workspace and send a move
        (control/serial_link.py)
-    5. optionally hit the ESP32's /dispense endpoint
+    5. optionally hit the ESP32's /release endpoint to drop the treat
 
 Usage:
     python -m control.mission --dry-run          # print, do not send
@@ -20,10 +20,9 @@ Usage:
 --dry-run touches no hardware except the camera: it prints the exact serial
 commands and HTTP requests it would have issued. Use it first, every time.
 
-The firmware refuses targets outside its own WORKSPACE_MARGIN box and replies
-"err" rather than moving, so a bad target here is a rejected command, not a
-crash into a wall. This script clamps as well, so that a pet standing in a
-corner produces the nearest reachable point instead of an error.
+The firmware only WARNS about targets outside its safe box and then moves
+anyway, so the clamp in this script is the real guard: a pet standing in a
+corner produces the nearest reachable point, not a slack cable.
 """
 
 from __future__ import annotations
@@ -51,20 +50,19 @@ def load_homography(cfg: dict) -> np.ndarray:
     return np.load(path)
 
 
-def workspace_box(cfg: dict, margin: float = 400.0):
-    """Mirror the firmware's WORKSPACE_MARGIN box, in host-side units.
+def workspace_box(cfg: dict):
+    """Return the safe box the firmware also checks, as {axis: (lo, hi)}.
 
-    Kept deliberately in sync with the constants in
-    firmware/cdpr_controller/cdpr_controller.ino. If you change one, change the
-    other -- a host that clamps looser than the firmware just produces "err"
-    replies, and one that clamps tighter silently shrinks the workspace.
+    Mirrors inWorkspace() in firmware/uno_winches.cpp. The firmware only
+    WARNS on a target outside this box and then moves anyway, so clamping
+    here is what actually keeps the cables taut. Values come from the
+    `workspace:` block of config.yaml; keep them identical to the firmware.
     """
-    from config_loader import anchors_from_config
-
-    a = np.array(anchors_from_config(cfg), dtype=float)
+    w = cfg["workspace"]
     return {
-        "x": (a[:, 0].min() + margin, a[:, 0].max() - margin),
-        "y": (a[:, 1].min() + margin, a[:, 1].max() - margin),
+        "x": (float(w["x_min"]), float(w["x_max"])),
+        "y": (float(w["y_min"]), float(w["y_max"])),
+        "z": (float(w["z_min"]), float(w["z_max"])),
     }
 
 
@@ -74,7 +72,9 @@ def clamp(value: float, lo: float, hi: float) -> float:
 
 def dispense(cfg: dict, dry_run: bool) -> None:
     base = cfg["esp32"]["base_url"].rstrip("/")
-    url = f"{base}/dispense"
+    # With the claw platform "dispense" means open the jaws and drop whatever
+    # they are holding: GET /release on esp32/esp32_claw.cpp.
+    url = f"{base}{cfg['esp32'].get('dispense_endpoint', '/release')}"
     timeout = float(cfg["esp32"].get("request_timeout_s", 5.0))
 
     if dry_run:
@@ -114,7 +114,8 @@ def main() -> int:
     cfg = load_config(args.config)
     H = load_homography(cfg)
     box = workspace_box(cfg)
-    cruise_z = float(cfg.get("platform", {}).get("cruise_z_mm", 1200))
+    cruise_z = clamp(float(cfg.get("platform", {}).get("cruise_z_mm", 1800)),
+                     *box["z"])
 
     print(f"workspace x{box['x']} y{box['y']} cruise_z={cruise_z}")
     if args.dry_run:
@@ -144,7 +145,7 @@ def main() -> int:
             if args.dry_run:
                 print(f"  [dry-run] H {hx:.2f} {hy:.2f} {hz:.2f}")
             else:
-                print("  " + link.set_home(hx, hy, hz))
+                print("  home:", link.set_home(hx, hy, hz))
 
         while True:
             frame = picam.capture_array()
@@ -173,7 +174,9 @@ def main() -> int:
                     print(f"  [dry-run] M {tx:.2f} {ty:.2f} {cruise_z:.2f}")
                 else:
                     try:
-                        print("  " + link.move(tx, ty, cruise_z))
+                        print("  moved:", link.move(tx, ty, cruise_z))
+                        if link.last_warning:
+                            print("  " + link.last_warning)
                     except serial_link.SerialLinkError as exc:
                         print(f"  move failed: {exc}")
                         if args.once:
