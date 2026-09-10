@@ -18,7 +18,7 @@ A Raspberry Pi sees the dog, an Arduino solves the geometry, an ESP32 works the 
 
 <a href="docs/media/demo.mp4"><img src="docs/media/demo.gif" alt="Full delivery sequence: park, descend to the treat bowl, grip, lift, traverse to the crate, release" width="720"></a>
 
-*Full delivery run at 8x speed. Click for the [real-time video](docs/media/demo.mp4) (2 min 49 s).*
+*Full delivery run at 8x speed. Claw unfortunately didn't close enough to pick up treat :(. Click for the [real-time video](docs/media/demo.mp4) (2 min 49 s).*
 
 </div>
 
