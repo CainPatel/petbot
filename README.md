@@ -324,7 +324,8 @@ extensions bound to libcamera and is not reliably installable from PyPI.
 **Flash the boards**
 
 ```bash
-cp esp32/secrets.example.h esp32/secrets.h   # then put your WiFi details in it
+cp esp32/secrets.example.h esp32/secrets.h              # WiFi details and an OTA password
+cp platformio.local.example.ini platformio.local.ini    # same OTA password, for uploads
 pio run -e uno -t upload
 pio run -e esp32_usb -t upload    # first flash, over USB
 pio run -e esp32 -t upload        # OTA once the ESP32 is on the network
@@ -384,6 +385,16 @@ connecting it to anything, and `detach()` after every move.
   estimated to measured
 - 5 V boost converter for the claw so the platform runs on a LiPo again
 - Mechanical pulley anchors
+
+## Security notes
+
+This is a LAN device with no login. The control page on the Pi and the HTTP
+server on the ESP32 accept commands from anyone on the same WiFi, and either
+one can move a 350 g platform around a room. Run it on a network you trust
+and never expose port 5000 or the ESP32 to the internet. Over-the-air
+firmware updates do require a password (set in `esp32/secrets.h`). WiFi
+credentials never go in tracked files; the two gitignored copies are
+`esp32/secrets.h` and `platformio.local.ini`.
 
 ## Credits
 

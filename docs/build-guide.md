@@ -218,8 +218,9 @@ enabled. Do not send an `M` yet; there are no cables.
 ## 10. Flash the ESP32
 
 ```bash
-cp esp32/secrets.example.h esp32/secrets.h     # then edit in your SSID and password
-pio run -e esp32_usb -t upload                 # first time, over USB
+cp esp32/secrets.example.h esp32/secrets.h              # SSID, WiFi password, OTA password
+cp platformio.local.example.ini platformio.local.ini    # the same OTA password, for uploads
+pio run -e esp32_usb -t upload                          # first time, over USB
 pio device monitor -e esp32                    # watch it join WiFi, note the IP
 ```
 
@@ -243,6 +244,10 @@ curl "http://192.168.1.119/face?m=happy"
 
 If the board reboots when the servo moves, the power supply is the problem,
 not the code.
+
+Neither the ESP32's HTTP server nor the control page on the Pi has any
+authentication. Anyone on your WiFi can move the robot. Keep it on a network
+you trust, and never port-forward either of them to the internet.
 
 ## 11. String the lines and home
 

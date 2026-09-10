@@ -33,6 +33,7 @@ latest.jpg
 config.yaml
 vision/config.yaml
 secrets.h
+platformio.local.ini
 
 # ---- Arduino / PlatformIO build output ----
 build/

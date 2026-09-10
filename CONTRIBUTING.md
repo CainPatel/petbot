@@ -35,8 +35,11 @@ Before uploading a change that touches motion, re-read the two hard rules in
 including winch 4's DIR on D11.
 
 **ESP32.** Copy `esp32/secrets.example.h` to `esp32/secrets.h` and put your
-WiFi details there. `secrets.h` is gitignored; **never commit credentials**
-in `esp32_claw.cpp` itself. First flash over USB, then over the air:
+WiFi details and an OTA password there, then copy
+`platformio.local.example.ini` to `platformio.local.ini` with the same OTA
+password. Both copies are gitignored; **never commit credentials** in
+`esp32_claw.cpp` or `platformio.ini` themselves. First flash over USB, then
+over the air:
 
 ```bash
 pio run -e esp32_usb -t upload

@@ -126,6 +126,9 @@ void setup() {
 
   // Over-the-air updates so the board can be reflashed without USB
   ArduinoOTA.setHostname("petbot-claw");
+  // Without this, anyone on the WiFi can flash arbitrary code to the board.
+  // The password lives in esp32/secrets.h; pio sends it from platformio.local.ini.
+  ArduinoOTA.setPassword(OTA_PASSWORD_STR);
   ArduinoOTA.onStart([]() {
     claw.detach();             // never update mid-servo-move
     Serial.println("OTA start");
