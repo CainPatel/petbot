@@ -257,7 +257,7 @@ destroyed along the way adds about $10.
 
 | Item | Qty | Notes | Price |
 |---|---|---|---|
-| NEMA 17 stepper, 17HS19-2004S | 4 | one per winch | $56 |
+| NEMA 17 stepper, 17HS19-2004S | 4 | one per winch | $60 |
 | BigTreeTech TMC2209 v1.2 | 4 | standalone, 1/8 microstep, VREF ≈ 1.10 V | $25 |
 | Arduino Uno | 1 | | $25 |
 | 12 V PSU, 10 A | 1 | | $20 |
