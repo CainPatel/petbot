@@ -59,7 +59,7 @@ release, all while watching a live YOLO-annotated feed of the room.
 - **Honest numbers**: every measurement, every failure and every unresolved
   problem is written down below.
 
-Built in two weeks, from first stepper on a breadboard to a working delivery
+Built in three weeks, from first stepper on a breadboard to a working delivery
 sequence.
 
 - **Want to build one?** Start with [docs/build-guide.md](docs/build-guide.md).
