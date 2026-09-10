@@ -18,7 +18,7 @@ A Raspberry Pi sees the dog, an Arduino solves the geometry, an ESP32 works the 
 
 <a href="docs/media/demo.mp4"><img src="docs/media/demo.gif" alt="Full delivery sequence: park, descend to the treat bowl, grip, lift, traverse to the crate, release" width="720"></a>
 
-*Full delivery run at 8x speed. Claw unfortunately didn't close enough to pick up treat :( Click for the [real-time video](docs/media/demo.mp4) (2 min 49 s).*
+*Full delivery run at 8x speed. Claw unfortunately didn't close enough to pick up the treat. Click for the [real-time video](docs/media/demo.mp4) (2 min 49 s).*
 
 </div>
 
@@ -71,8 +71,7 @@ up, read [docs/how-it-works.md](docs/how-it-works.md).
 
 Four lines meet at the corners of a printed box carrying the ESP32, the OLED
 face and the power bank. A stalk below it holds the SG90 servo and the
-two-jaw claw; rubber bands on the jaws give the grip some give so it closes
-on a treat without needing force feedback.
+two-jaw claw.
 
 ## How it works
 
