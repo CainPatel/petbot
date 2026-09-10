@@ -100,7 +100,8 @@ the workspace.
 
 ### Procedure
 
-1. **Define the origin.** Pick the floor corner below anchor 1. Mark it. X runs
+1. **Define the origin.** Pick the floor corner below winch 3, the corner
+   the camera sits above. Mark it. X runs
    along one wall, Y along the other, Z is up. Write down which wall is which
    and stick to it, swapping X and Y halfway through is the classic way to
    lose an afternoon.

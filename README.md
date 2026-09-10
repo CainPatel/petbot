@@ -60,8 +60,11 @@ release, all while watching a live YOLO-annotated feed of the room.
   problem is written down below.
 
 Built in two weeks, from first stepper on a breadboard to a working delivery
-sequence. If you want the maths and the software explained from the ground
-up, read [docs/how-it-works.md](docs/how-it-works.md).
+sequence.
+
+- **Want to build one?** Start with [docs/build-guide.md](docs/build-guide.md).
+- **Want the maths and software explained from the ground up?** Read
+  [docs/how-it-works.md](docs/how-it-works.md).
 
 ## The platform
 
@@ -135,7 +138,7 @@ coordinates; the ESP32 executes claw commands. Neither knows the other exists.
 | `control.py` | Flask control page: live feed, moves, claw, delivery sequence |
 | `platformio.ini` | Build and upload envs for both boards (`uno`, `esp32`, `esp32_usb`) |
 | `cad/` | Spools, pulley housings, motor brackets, platform |
-| `docs/` | How it works, kinematics, calibration, build log, results |
+| `docs/` | Build guide, how it works, kinematics, calibration, build log, results |
 | `archive/` | Pre-hardware scaffold sketches, kept for reference only |
 
 ## Serial protocol
